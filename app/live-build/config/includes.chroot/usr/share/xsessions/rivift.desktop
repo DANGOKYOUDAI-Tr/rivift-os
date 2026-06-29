@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Rivift OS
+Comment=Rivift OS Desktop Environment
+Exec=/opt/rivift/start-rivift.sh
+Type=Application

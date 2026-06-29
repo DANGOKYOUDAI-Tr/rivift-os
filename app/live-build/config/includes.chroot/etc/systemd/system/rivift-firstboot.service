@@ -1,0 +1,10 @@
+[Unit]
+Description=Rivift OS first boot setup
+
+[Service]
+Type=oneshot
+ExecStart=/opt/rivift/firstboot.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

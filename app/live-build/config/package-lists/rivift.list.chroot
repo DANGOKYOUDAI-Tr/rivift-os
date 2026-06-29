@@ -1,0 +1,43 @@
+# Rivift OS live system packages
+# Kernel & firmware
+linux-image-amd64
+firmware-linux
+firmware-linux-nonfree
+
+# Display
+xorg
+lightdm
+
+# Japanese support
+task-japanese
+fonts-noto-cjk
+fonts-noto-cjk-extra
+ibus-mozc
+
+# Audio
+pipewire-pulse
+wireplumber
+
+# Runtime
+nodejs
+npm
+sudo
+ca-certificates
+dbus
+network-manager
+
+# Build tools (for npm native modules)
+build-essential
+python3
+make
+gcc
+g++
+
+# Utilities
+gnome-terminal
+xdg-utils
+file
+htop
+unzip
+curl
+wget

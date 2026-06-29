@@ -1,0 +1,136 @@
+#!/bin/bash
+# Rivift OS live system setup hook
+set -e
+
+echo "[rivift] Setting up Rivift OS live system..."
+
+# ── Create rivift user ──
+useradd -m -s /bin/bash rivift
+echo "rivift:rivift" | chpasswd
+usermod -aG sudo,video,audio,input,plugdev rivift
+
+# Passwordless sudo
+echo "rivift ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/rivift-user
+chmod 0440 /etc/sudoers.d/rivift-user
+
+# ── Install npm dependencies ──
+echo "[rivift] Installing app dependencies..."
+cd /opt/rivift/app
+npm install 2>&1 || echo "[rivift] WARNING: npm install had issues (some features limited)"
+
+echo "[rivift] Installing backend dependencies..."
+cd /opt/rivift/app/backend
+npm install 2>&1 || echo "[rivift] WARNING: backend npm install had issues"
+
+# ── Download CDN assets for offline use ──
+echo "[rivift] Caching CDN assets..."
+CDN_DIR="/opt/rivift/app/renderer/cdn"
+mkdir -p "$CDN_DIR/font-awesome/css" "$CDN_DIR/font-awesome/webfonts" "$CDN_DIR/tailwind"
+
+# Font Awesome 6.5.2 (critical for UI icons)
+FA_BASE="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2"
+curl -fsSL "$FA_BASE/css/all.min.css" -o "$CDN_DIR/font-awesome/css/all.min.css" 2>/dev/null && echo "  Font Awesome OK" || echo "  Font Awesome FAILED"
+for fw in fa-solid-900.woff2 fa-regular-400.woff2 fa-brands-400.woff2 fa-v4compatibility.woff2; do
+    curl -fsSL "$FA_BASE/webfonts/$fw" -o "$CDN_DIR/font-awesome/webfonts/$fw" 2>/dev/null || true
+done
+
+# Tailwind CSS (critical for layout)
+curl -fsSL "https://cdn.tailwindcss.com" -o "$CDN_DIR/tailwind/tailwind.min.js" 2>/dev/null && echo "  Tailwind OK" || echo "  Tailwind FAILED"
+
+# ── Patch index.html to use local CDN cache ──
+echo "[rivift] Patching index.html for offline CDN..."
+INDEX_HTML="/opt/rivift/app/renderer/index.html"
+if [ -f "$INDEX_HTML" ]; then
+    # Font Awesome → local cache
+    sed -i 's|https://cdnjs\.cloudflare\.com/ajax/libs/font-awesome/[^/]*/[^/]*/css/all\.min\.css|/cdn/font-awesome/css/all.min.css|g' "$INDEX_HTML"
+    # Tailwind → local cache
+    sed -i 's|https://cdn\.tailwindcss\.com[^"]*|/cdn/tailwindcss|g' "$INDEX_HTML"
+    # Google Fonts → local cache (graceful fallback if offline)
+    sed -i 's|https://fonts\.googleapis\.com/css2[^"]*|/cdn/google-fonts|g' "$INDEX_HTML"
+    echo "  index.html patched"
+else
+    echo "  index.html not found, skipping patch"
+fi
+
+# ── Create CDN cache middleware ──
+cat > /opt/rivift/app/backend/routes/cdn-cache.js << 'CDNJS'
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const router = express.Router();
+
+const CDN_DIR = path.join(__dirname, '..', '..', 'renderer', 'cdn');
+
+// Font Awesome
+router.use('/cdn/font-awesome', express.static(path.join(CDN_DIR, 'font-awesome')));
+
+// Tailwind
+router.get('/cdn/tailwindcss', (req, res) => {
+    const file = path.join(CDN_DIR, 'tailwind', 'tailwind.min.js');
+    if (fs.existsSync(file)) {
+        res.type('application/javascript').sendFile(file);
+    } else {
+        res.redirect('https://cdn.tailwindcss.com');
+    }
+});
+
+// Google Fonts — local CSS if cached, otherwise pass through (font files stay on CDN)
+router.get('/cdn/google-fonts', (req, res) => {
+    const cssPath = [
+        path.join(CDN_DIR, '..', 'google-fonts', 'fonts.css'),
+        path.join(CDN_DIR, 'google-fonts', 'fonts.css'),
+    ].find(f => fs.existsSync(f));
+    if (cssPath) {
+        res.type('text/css').sendFile(cssPath);
+    } else {
+        // 404 is fine — the HTML has fallback fonts (sans-serif)
+        res.status(404).type('text').send('/* Google Fonts not cached */');
+    }
+});
+
+module.exports = router;
+CDNJS
+
+# Patch server.js to use CDN cache
+SERVER_JS="/opt/rivift/app/backend/server.js"
+if grep -q 'cdn-cache' "$SERVER_JS" 2>/dev/null; then
+    echo "[rivift] CDN cache already patched in server.js"
+else
+    sed -i '/cdn-cache/d' "$SERVER_JS" 2>/dev/null || true
+    sed -i '\#app.use(express.static#a app.use(require("./routes/cdn-cache"));' "$SERVER_JS"
+    echo "[rivift] CDN cache middleware added to server.js"
+fi
+
+# ── Fix ownership ──
+chown -R rivift:rivift /opt/rivift
+chmod 755 /opt/rivift/start-rivift.sh
+chmod 755 /opt/rivift/firstboot.sh
+
+# ── Enable services ──
+systemctl enable NetworkManager
+systemctl enable rivift-firstboot.service
+
+# ── Configure lightdm ──
+mkdir -p /etc/lightdm/lightdm.conf.d
+cat > /etc/lightdm/lightdm.conf.d/50-rivift-autologin.conf << 'LIGHTDM'
+[Seat:*]
+autologin-user=rivift
+autologin-user-timeout=0
+user-session=rivift
+LIGHTDM
+
+# ── Create Xsession file ──
+mkdir -p /usr/share/xsessions
+cat > /usr/share/xsessions/rivift.desktop << 'XDESK'
+[Desktop Entry]
+Name=Rivift OS
+Comment=Rivift OS Desktop
+Exec=/opt/rivift/start-rivift.sh
+Type=Application
+XDESK
+
+# Disable unnecessary services
+systemctl disable bluetooth 2>/dev/null || true
+systemctl disable cups 2>/dev/null || true
+
+echo "[rivift] Setup complete"
