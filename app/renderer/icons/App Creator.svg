@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   width="46.64575"
+   height="46.64574"
+   viewBox="0,0,46.64575,46.64574"
+   id="svg11"
+   sodipodi:docname="App Creator.svg"
+   inkscape:version="1.4.3 (0d15f750, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs11">
+    <linearGradient
+       id="linearGradient12"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.99607999;"
+         offset="0"
+         id="stop12" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.41279069;"
+         offset="1"
+         id="stop13" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12"
+       id="linearGradient13"
+       x1="246.0972"
+       y1="176.19167"
+       x2="228.651"
+       y2="203.0565"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-1.5358182,-0.58507369)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12"
+       id="linearGradient14"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(6.0492567,0.32691064)"
+       x1="246.0972"
+       y1="176.19167"
+       x2="228.651"
+       y2="203.0565" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12"
+       id="linearGradient13-9"
+       x1="246.0972"
+       y1="176.19167"
+       x2="228.651"
+       y2="203.0565"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.73515981,0,0,0.85910652,64.531899,23.229539)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12"
+       id="linearGradient13-6"
+       x1="246.0972"
+       y1="176.19167"
+       x2="228.651"
+       y2="203.0565"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-1.5358122,-0.58508025)" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview11"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="13.673493"
+     inkscape:cx="23.293243"
+     inkscape:cy="23.293243"
+     inkscape:window-width="1982"
+     inkscape:window-height="1186"
+     inkscape:window-x="633"
+     inkscape:window-y="251"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g11" />
+  <g
+     transform="translate(-216.67712,-156.67713)"
+     id="g11">
+    <path
+       d="m 223.97054,156.67714 h 32.05892 c 4.04055,0 7.29342,3.08185 7.29342,6.91001 v 32.82573 c 0,3.82814 -3.25286,6.90999 -7.29342,6.90999 h -32.05892 c -4.04055,0 -7.29342,-3.08185 -7.29342,-6.90999 v -32.82573 c 0,-3.82816 3.25287,-6.91001 7.29342,-6.91001 z"
+       fill-opacity="0.99608"
+       fill="#3d3fc6"
+       fill-rule="evenodd"
+       stroke="none"
+       stroke-width="9.02606"
+       stroke-linecap="butt"
+       id="path1"
+       style="stroke-miterlimit:10;fill:#88edff;fill-opacity:0.99607998" />
+    <text
+       font-size="53.333px"
+       xml:space="preserve"
+       fill="#303030"
+       fill-rule="evenodd"
+       stroke="none"
+       stroke-width="1.88975"
+       stroke-linecap="butt"
+       font-family="'Red Hat Display'"
+       font-weight="400"
+       text-anchor="start"
+       id="text2"
+       style="stroke-miterlimit:10"
+       x="100.17158"
+       y="75.083229"><tspan
+         x="100.17158"
+         dy="0"
+         id="tspan2"
+         style="stroke-width:1.88975"> </tspan></text>
+    <text
+       font-size="53.333px"
+       xml:space="preserve"
+       fill="#303030"
+       fill-rule="evenodd"
+       stroke="none"
+       stroke-width="1.88975"
+       stroke-linecap="butt"
+       font-family="'Red Hat Display'"
+       font-weight="400"
+       text-anchor="start"
+       id="text3"
+       style="stroke-miterlimit:10"
+       x="100.17158"
+       y="75.083229"><tspan
+         x="100.17158"
+         dy="0"
+         id="tspan3"
+         style="stroke-width:1.88975"> </tspan></text>
+    <ellipse
+       style="fill:#fffd66;fill-opacity:0.99607998;fill-rule:evenodd;stroke-width:2.82856"
+       id="path11"
+       cx="248.85617"
+       cy="170.68233"
+       rx="10.311922"
+       ry="10.202221" />
+    <ellipse
+       style="fill:url(#linearGradient13);fill-rule:evenodd;stroke-width:5.76756"
+       id="path12"
+       cx="235.83829"
+       cy="189.039"
+       rx="16.01639"
+       ry="10.641026" />
+    <ellipse
+       style="fill:url(#linearGradient14);fill-rule:evenodd;stroke-width:5.76756"
+       id="path12-3"
+       cx="243.42336"
+       cy="189.951"
+       rx="16.01639"
+       ry="10.641026" />
+    <ellipse
+       style="fill:url(#linearGradient13-9);fill-rule:evenodd;stroke-width:4.5836"
+       id="path12-7"
+       cx="239.03979"
+       cy="186.13683"
+       rx="11.774606"
+       ry="9.1417742" />
+    <ellipse
+       style="fill:url(#linearGradient13-6);fill-rule:evenodd;stroke-width:5.76756"
+       id="path12-39"
+       cx="235.83829"
+       cy="189.039"
+       rx="16.01639"
+       ry="10.641026" />
+  </g>
+</svg>
+<!--rotationCenter:23.32287500000001:23.322865000000007-->
+
