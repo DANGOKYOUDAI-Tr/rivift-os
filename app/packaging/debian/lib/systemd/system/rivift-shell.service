@@ -1,0 +1,24 @@
+[Unit]
+# Rivift OS シェル(Electronアプリ)を自動起動するサービス。
+# graphical.target(X11/Waylandが立ち上がった後)に依存する。
+Description=Rivift OS Shell (Electron desktop)
+After=graphical.target network.target
+Wants=network.target
+
+[Service]
+Type=simple
+# Electronアプリをkioskモードで起動する。
+# main.js内で backend(Express)を子プロセスとして自動起動するため、
+# このサービス1つだけでRivift OS全体が立ち上がる。
+ExecStart=/usr/bin/npx --prefix /opt/rivift/app electron /opt/rivift/app
+Restart=always
+RestartSec=3
+User=riviftuser
+Environment=DISPLAY=:0
+Environment=NODE_ENV=production
+# Electronがcrashする場合に無限ループしないよう、一定回数で諦める設定も検討の余地あり
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Install]
+WantedBy=graphical.target

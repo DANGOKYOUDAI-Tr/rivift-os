@@ -1,0 +1,37 @@
+#!/bin/sh
+# postinst — rivift-shell パッケージのインストール後に実行されるスクリプト
+#
+# やること:
+#   1. npm install を実行(依存ライブラリをその場でインストール)
+#      ※ 本格運用ではnode_modulesを.debに含めてオフラインインストールに
+#         する方が確実だが、まずは「動く土台」としてシンプルな形にする。
+#   2. systemdサービスを有効化(次回起動時から自動的にRivift OSが立ち上がる)
+#   3. sudoersルールとudevルールを配置(電源操作・明るさ制御に必要)
+
+set -e
+
+INSTALL_DIR="/opt/rivift"
+
+echo "[rivift-shell] 依存パッケージをインストールしています..."
+cd "$INSTALL_DIR/app" && npm install --omit=dev --production || true
+cd "$INSTALL_DIR/app/backend" && npm install --omit=dev --production || true
+
+echo "[rivift-shell] sudoersルールを設定しています..."
+cat > /etc/sudoers.d/rivift << 'SUDOERS_EOF'
+riviftuser ALL=(root) NOPASSWD: /sbin/reboot, /sbin/shutdown
+SUDOERS_EOF
+chmod 0440 /etc/sudoers.d/rivift
+
+echo "[rivift-shell] udevルール(バックライト権限)を設定しています..."
+cat > /etc/udev/rules.d/90-rivift-backlight.rules << 'UDEV_EOF'
+SUBSYSTEM=="backlight", ACTION=="add", RUN+="/bin/chgrp video /sys/class/backlight/%k/brightness", RUN+="/bin/chmod g+w /sys/class/backlight/%k/brightness"
+UDEV_EOF
+udevadm control --reload-rules || true
+
+echo "[rivift-shell] systemdサービスを有効化しています..."
+systemctl daemon-reload || true
+systemctl enable rivift-shell.service || true
+
+echo "[rivift-shell] インストールが完了しました。再起動すると自動的に起動します。"
+
+exit 0

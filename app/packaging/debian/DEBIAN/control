@@ -1,0 +1,11 @@
+Package: rivift-shell
+Version: 0.1.0
+Section: x11
+Priority: optional
+Architecture: amd64
+Depends: nodejs (>= 18), chromium-browser | chromium, pipewire-pulse | pulseaudio-utils
+Maintainer: Rivift OS Project <maintainer@example.com>
+Description: Rivift OS シェル (デスクトップ環境本体)
+ Rivift OSのUI・バックエンドAPI・Electronシェル一式をインストールする。
+ インストール後、systemdサービス rivift-shell.service が有効化され、
+ 次回起動時から自動的にRivift OSのデスクトップが立ち上がる。

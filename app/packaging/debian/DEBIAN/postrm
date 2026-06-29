@@ -1,0 +1,17 @@
+#!/bin/sh
+# postrm — rivift-shell パッケージ削除後のクリーンアップ
+
+set -e
+
+case "$1" in
+    purge)
+        echo "[rivift-shell] 設定ファイルを削除しています..."
+        rm -f /etc/sudoers.d/rivift
+        rm -f /etc/udev/rules.d/90-rivift-backlight.rules
+        ;;
+    remove)
+        systemctl disable rivift-shell.service || true
+        ;;
+esac
+
+exit 0
