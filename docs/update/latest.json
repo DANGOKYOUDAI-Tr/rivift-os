@@ -1,0 +1,8 @@
+{
+  "version": "0.1.0",
+  "download_url": "https://github.com/YOUR_USERNAME/rivift-os/releases/download/v0.1.0/rivift-os-0.1.0.zip",
+  "sha256": "REPLACE_WITH_ACTUAL_SHA256",
+  "size": 0,
+  "changelog": "## Rivift OS v0.1.0\n\n初回リリース\n",
+  "required_version": "0.0.0"
+}
